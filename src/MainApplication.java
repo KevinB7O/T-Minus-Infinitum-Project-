@@ -50,9 +50,9 @@ public class MainApplication extends GraphicsProgram{
 		switchToScreen(descriptionPane);
 	}
 	
-	public void switchToTestingLevel1Screen() {
+	/*public void switchToTestingLevel1Screen() {
 		switchToScreen(level1);
-	}
+	}*/
 	
 	public void switchToWelcomeScreen() {
 		switchToScreen(welcomePane);
