@@ -83,9 +83,9 @@ public class TestingLevel1 extends GraphicsProgram implements ActionListener {
 			score = gameData.getTotalScore();
 		}
 
-		UserSpaceship mainship = new UserSpaceship(SpaceshipType.userSpaceship, 14, 12);
+		/*UserSpaceship mainship = new UserSpaceship(SpaceshipType.userSpaceship, 14, 12);
 		visualMainShip = mainship.getVisualMainShip();
-		add(visualMainShip);
+		add(visualMainShip);*/
 
 		Enemyship1[] enemies = { new Enemyship1(SpaceshipType.eType1, 5, 7),
 				new Enemyship1(SpaceshipType.eType1, 5, 11), new Enemyship1(SpaceshipType.eType1, 5, 15),
@@ -132,7 +132,7 @@ public class TestingLevel1 extends GraphicsProgram implements ActionListener {
 	public void userSpaceshipMovement(MouseEvent e) {
 		double mouseX = e.getX();
 		double mouseY = e.getY();
-		visualMainShip.setLocation(mouseX, mouseY);
+		//visualMainShip.setLocation(mouseX, mouseY);
 		if (mainShipImage != null) {
 	        mainShipImage.setLocation(
 	            mouseX - mainShipImage.getWidth() / 2,
@@ -324,8 +324,10 @@ public class TestingLevel1 extends GraphicsProgram implements ActionListener {
 	}
 
 	private void shootFromUser() {
-		double shipX = visualMainShip.getX() + SIZE / 2;
-		double shipY = visualMainShip.getY();
+		//double shipX = visualMainShip.getX() + SIZE / 2;
+		//double shipY = visualMainShip.getY();
+		double shipX = mainShipImage.getX() + SIZE / 2;
+		double shipY = mainShipImage.getY();
 
 		GOval bullet = new GOval(shipX - USER_PROJ_SIZE / 2, shipY - USER_PROJ_SIZE, USER_PROJ_SIZE, USER_PROJ_SIZE);
 		bullet.setFilled(true);

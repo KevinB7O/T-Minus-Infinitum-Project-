@@ -14,7 +14,7 @@ public class GraphicsPane {
 	
 	// Returns a GImage for the player's spaceship at (x, y)
     public static GImage getMainSpaceshipImage(double x, double y) {
-        GImage mainShipImg = new GImage("Media/User spaceship (T-minus Infinitum- 5th version).png");
+        GImage mainShipImg = new GImage("Media/User spaceship (T-minus Infinitum- 6th version).png");
         mainShipImg.setLocation(x, y);
         return mainShipImg;
     }
