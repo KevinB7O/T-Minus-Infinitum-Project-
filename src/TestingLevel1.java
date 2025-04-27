@@ -29,7 +29,7 @@ public class TestingLevel1 extends GraphicsProgram implements ActionListener {
 	private int mainShipShootCooldown = 13; // lower = faster shooting
 	private int mainShipTicksSinceLastShot = 0;
 
-	private int elapsedTime = 0; // time in seconds
+	private int elapsedTime = 0; // time in second
 	private int score = 0;
 	private GLabel timerLabel;
 	private GLabel scoreLabel;
