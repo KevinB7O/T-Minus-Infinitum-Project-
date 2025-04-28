@@ -166,6 +166,15 @@ public class TestingLevel4 extends GraphicsProgram implements ActionListener {
 				break;
 			}
 		}*/
+		
+		for (GImage enemy : enemyImages) {
+	        if (enemy.getBounds().intersects(mainShipImage.getBounds())) {
+	            System.out.println("Enemy Collision Detected!");
+	            //enemiesToRemove.add(enemy);
+	            gameOver();
+	            break; // Exit loop after first collision
+	        }
+	    }
 	}
 
 	@Override

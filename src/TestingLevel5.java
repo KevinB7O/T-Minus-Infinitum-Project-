@@ -71,6 +71,7 @@ public class TestingLevel5 extends GraphicsProgram implements ActionListener {
 	public void run() {
 		rgen = RandomGenerator.getInstance();
 		
+		
 		GImage background = new GImage("Media/Background (T-minus Infinitum).png", 0, 0);
 		add(background);
 		
@@ -166,6 +167,15 @@ public class TestingLevel5 extends GraphicsProgram implements ActionListener {
 				break;
 			}
 		}*/
+		
+		for (GImage enemy : enemyImages) {
+	        if (enemy.getBounds().intersects(mainShipImage.getBounds())) {
+	            System.out.println("Enemy Collision Detected!");
+	            //enemiesToRemove.add(enemy);
+	            gameOver();
+	            break; // Exit loop after first collision
+	        }
+	    }
 	}
 
 	@Override
