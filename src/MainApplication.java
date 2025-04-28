@@ -106,7 +106,7 @@ public class MainApplication extends GraphicsProgram {
     }
     // This launches TestingLevel3 as a new window
     public void launchLevel3() {
-        TestingLevel2 level3 = new TestingLevel2();
+        TestingLevel3 level3 = new TestingLevel3();
         level3.setMainScreen(this);
         if (gameData != null) {
             level3.setGameData(gameData);
@@ -115,7 +115,7 @@ public class MainApplication extends GraphicsProgram {
     }
     // This launches TestingLevel4 as a new window
     public void launchLevel4() {
-        TestingLevel2 level4 = new TestingLevel2();
+        TestingLevel4 level4 = new TestingLevel4();
         level4.setMainScreen(this);
         if (gameData != null) {
             level4.setGameData(gameData);
@@ -124,7 +124,7 @@ public class MainApplication extends GraphicsProgram {
     }
     // This launches TestingLevel5 as a new window
     public void launchLevel5() {
-        TestingLevel2 level5 = new TestingLevel2();
+        TestingLevel5 level5 = new TestingLevel5();
         level5.setMainScreen(this);
         if (gameData != null) {
             level5.setGameData(gameData);

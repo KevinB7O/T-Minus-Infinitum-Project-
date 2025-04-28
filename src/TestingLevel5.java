@@ -17,7 +17,7 @@ public class TestingLevel5 extends GraphicsProgram implements ActionListener {
 	public static final int PROGRAM_HEIGHT = 600;
 	public static final int SIZE = 25;
 	public static final int MS = 25;
-	public static final int ENEMY_PROJ_SPEED = 34 ;
+	public static final int ENEMY_PROJ_SPEED = 5 ;//speed 34
 	public static final int ENEMY_PROJ_SIZE = 12;
 	private final int USER_PROJ_SPEED = 10;
 	private final int USER_PROJ_SIZE = 8;
@@ -96,9 +96,10 @@ public class TestingLevel5 extends GraphicsProgram implements ActionListener {
 		    }
 		
 		 // Initialize score from GameData
-	    if (gameData != null) {
-	        score = gameData.getTotalScore();
-	    }
+		/*if (gameData != null) {
+        score = gameData.getTotalScore();
+        }*/
+        score = 0;
 
 		/*UserSpaceship mainship = new UserSpaceship(SpaceshipType.userSpaceship, 14, 12);
 		visualMainShip = mainship.getVisualMainShip();
@@ -327,6 +328,18 @@ public class TestingLevel5 extends GraphicsProgram implements ActionListener {
  	// Firing from main ship using left mouse button
  	@Override
  	public void mousePressed(MouseEvent e) {
+ 		
+ 		if (summaryScreen != null) {
+			// Translate mouse coords to summaryScreen coords
+			double x = e.getX() - summaryScreen.getX();
+			double y = e.getY() - summaryScreen.getY();
+
+			if (summaryScreen.isNextButtonClicked(x, y)) {
+				summaryScreen.runNextLevelAction();
+				return; // Prevent further processing of this click
+			}
+		}
+ 		
  		if (SwingUtilities.isLeftMouseButton(e)) {
  			mousePressed = true;
  		}
@@ -595,7 +608,8 @@ public class TestingLevel5 extends GraphicsProgram implements ActionListener {
 	    showCursor();
 	    
 	    // Create summary screen with callback to launch Level 2 and close this window
-	    summaryScreen = new EndLevelSummary(score, bonusPoints, elapsedTime, this::nextLevel);
+	    int totalScore = (gameData != null) ? gameData.getTotalScore() : score;
+	    summaryScreen = new EndLevelSummary(totalScore, bonusPoints, elapsedTime, this::nextLevel);
 
 	    add(summaryScreen, (PROGRAM_WIDTH - summaryScreen.getWidth()) / 2, (PROGRAM_HEIGHT - summaryScreen.getHeight()) / 2);
 
@@ -635,7 +649,8 @@ public class TestingLevel5 extends GraphicsProgram implements ActionListener {
  		gameOverLabel.setColor(Color.RED);
  		add(gameOverLabel);
  
- 		GLabel finalScoreLabel = new GLabel("Score: " + score, PROGRAM_WIDTH / 2 - 40, PROGRAM_HEIGHT / 2 + 50);
+ 		int totalScore = (gameData != null ? gameData.getTotalScore() : 0) + score;
+		GLabel finalScoreLabel = new GLabel("Score: " + totalScore, PROGRAM_WIDTH / 2 - 40, PROGRAM_HEIGHT / 2 + 50);
  		finalScoreLabel.setFont(new Font("SansSerif", Font.BOLD, 24));
  		add(finalScoreLabel);
  
@@ -696,7 +711,9 @@ public class TestingLevel5 extends GraphicsProgram implements ActionListener {
  	
  
  	private void updateScoreLabel() {
- 		scoreLabel.setLabel("Score: " + score);
+ 		//scoreLabel.setLabel("Score: " + score);
+ 		int totalScore = (gameData != null ? gameData.getTotalScore() : 0) + score;
+ 	    scoreLabel.setLabel("Score: " + totalScore);
  	}
  
  	private void updateBonusPointsLabel() {
