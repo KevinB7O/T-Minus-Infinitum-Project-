@@ -1,138 +1,49 @@
-
-
-	/*import acm.graphics.*;
-	import java.awt.*;
-	import acm.program.*;
-
-	public class EndGameSummary extends GCompound {
-	    private int score;
-	    private int bonusPoints;
-	    private int elapsedTime;
-	    private GLabel levelSummary;
-	    private GLabel scoreLabel;
-	    private GLabel bonusPointsLabel;
-	    private GLabel elapsedTimeLabel;
-	    private GRect nextButton;
-	    private GLabel nextLabel;
-
-	    public EndGameSummary(int score, int bonusPoints, int elapsedTime, Runnable nextLevelAction) {
-	        this.score = score;
-	        this.bonusPoints = bonusPoints;
-	        this.elapsedTime = elapsedTime;
-
-	        
-	        //Display level summary text
-	        levelSummary = new GLabel("Level Summary");
-	        levelSummary.setFont("SansSerif-bold-26");
-	        levelSummary.setColor(Color.MAGENTA);
-	        add(levelSummary, 0, -30);
-	        
-	        // Display score
-	        scoreLabel = new GLabel("Score: " + score);
-	        scoreLabel.setFont("SansSerif-bold-16");
-	        scoreLabel.setColor(Color.BLACK);
-	        add(scoreLabel, 0, 0);
-
-	        // Display bonus points
-	        bonusPointsLabel = new GLabel("Bonus Points: " + bonusPoints);
-	        bonusPointsLabel.setFont("SansSerif-bold-16");
-	        bonusPointsLabel.setColor(Color.RED);
-	        add(bonusPointsLabel, 0, 30);
-
-	        // Display elapsed time
-	        elapsedTimeLabel = new GLabel("Time: " + elapsedTime + "s");
-	        elapsedTimeLabel.setFont("SansSerif-bold-16");
-	        elapsedTimeLabel.setColor(Color.BLUE);
-	        add(elapsedTimeLabel, 0, 60);
-
-	        // Create "Next" button
-	        nextButton = new GRect(0, 90, 100, 40);
-	        nextButton.setFilled(true);
-	        nextButton.setFillColor(Color.LIGHT_GRAY);
-	        add(nextButton);
-
-	        nextLabel = new GLabel("Next");
-	        nextLabel.setFont("SansSerif-bold-16");
-	        nextLabel.setColor(Color.BLACK);
-	        add(nextLabel, 35, 115);
-	        
-	        // Add mouse listener for "Next" button
-	        nextButton.addMouseListener(new java.awt.event.MouseAdapter() {
-	            public void mousePressed(java.awt.event.MouseEvent e) {
-	                nextLevelAction.run(); // Call the provided callback (next level)
-	            }
-	        });
-	    }
-	}*/
-
 import acm.graphics.*;
 import java.awt.*;
-import acm.program.*;
+import java.util.ArrayList;
 
-public class EndGameSummary extends GCompound {
-    private int score;
-    private int bonusPoints;
-    private int elapsedTime;
-    private GLabel levelSummary;
-    private GLabel scoreLabel;
-    private GLabel bonusPointsLabel;
-    private GLabel elapsedTimeLabel;
-    private GRect nextButton;
-    private GLabel nextLabel;
-    private GImage backgroundImage;
+public class EndGameSummary extends GraphicsPane {
+    private MainApplication mainScreen;
+    private ArrayList<GObject> contents = new ArrayList<>();
 
-    public EndGameSummary(int score, int bonusPoints, int elapsedTime, Runnable nextLevelAction) {
-        this.score = score;
-        this.bonusPoints = bonusPoints;
-        this.elapsedTime = elapsedTime;
+    public EndGameSummary(MainApplication mainScreen) {
+        this.mainScreen = mainScreen;
+    }
 
-        // Add background image
-        backgroundImage = new GImage("Background (T-minus Infinitum).png"); // Replace with your actual image file
-        backgroundImage.setSize(400, 300); // Adjust size to match your UI
-        add(backgroundImage, 0, 0);
+    @Override
+    public void showContent() {
+        GameData data = GameData.getInstance();
 
-        // Display level summary text
-        levelSummary = new GLabel("Level Summary");
-        levelSummary.setFont("SansSerif-bold-26");
-        levelSummary.setColor(Color.MAGENTA);
-        add(levelSummary, 30, 20);
+        GLabel title = new GLabel("End Game Summary");
+        title.setFont("SansSerif-bold-32");
+        title.setLocation(250, 100);
+        contents.add(title);
+        mainScreen.add(title);
 
-        // Display score
-        scoreLabel = new GLabel("Score: " + score);
-        scoreLabel.setFont("SansSerif-bold-16");
-        scoreLabel.setColor(Color.BLACK);
-        add(scoreLabel, 30, 60);
+        GLabel scoreLabel = new GLabel("Total Points: " + data.getTotalScore());
+        scoreLabel.setFont("SansSerif-bold-24");
+        scoreLabel.setLocation(250, 200);
+        contents.add(scoreLabel);
+        mainScreen.add(scoreLabel);
 
-        // Display bonus points
-        bonusPointsLabel = new GLabel("Bonus Points: " + bonusPoints);
-        bonusPointsLabel.setFont("SansSerif-bold-16");
-        bonusPointsLabel.setColor(Color.RED);
-        add(bonusPointsLabel, 30, 90);
+        GLabel bonusLabel = new GLabel("Total Bonus: " + data.getTotalBonusPoints());
+        bonusLabel.setFont("SansSerif-bold-24");
+        bonusLabel.setLocation(250, 250);
+        contents.add(bonusLabel);
+        mainScreen.add(bonusLabel);
 
-        // Display elapsed time
-        elapsedTimeLabel = new GLabel("Time: " + elapsedTime + "s");
-        elapsedTimeLabel.setFont("SansSerif-bold-16");
-        elapsedTimeLabel.setColor(Color.BLUE);
-        add(elapsedTimeLabel, 30, 120);
+        GLabel timeLabel = new GLabel("Total Time Played: " + data.getTotalElapsedTime() + " seconds");
+        timeLabel.setFont("SansSerif-bold-24");
+        timeLabel.setLocation(250, 300);
+        contents.add(timeLabel);
+        mainScreen.add(timeLabel);
+    }
 
-        // Create "Next" button
-        nextButton = new GRect(30, 160, 100, 40);
-        nextButton.setFilled(true);
-        nextButton.setFillColor(Color.LIGHT_GRAY);
-        add(nextButton);
-
-        nextLabel = new GLabel("Next");
-        nextLabel.setFont("SansSerif-bold-16");
-        nextLabel.setColor(Color.BLACK);
-        add(nextLabel, 65, 185);
-        
-        // Add mouse listener for "Next" button
-        nextButton.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent e) {
-                nextLevelAction.run(); // Call the provided callback (next level)
-            }
-        });
+    @Override
+    public void hideContent() {
+        for (GObject obj : contents) {
+            mainScreen.remove(obj);
+        }
+        contents.clear();
     }
 }
-
-
