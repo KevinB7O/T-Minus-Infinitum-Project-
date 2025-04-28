@@ -26,25 +26,25 @@ public class GraphicsPane {
     }
     
     public static GImage getEnemySpaceship2(double x, double y) {
-        GImage EnemySpaceship2Img = new GImage("Media/Enemy spaceship2(updated).png)");
+        GImage EnemySpaceship2Img = new GImage("Media/Enemy spaceship2(updated).png");
         EnemySpaceship2Img.setLocation(x, y);
         return EnemySpaceship2Img;
     }
     
     public static GImage getEnemySpaceship3(double x, double y) {
-        GImage EnemySpaceship3Img = new GImage("Media/Enemy spaceship3(updated).png)");
+        GImage EnemySpaceship3Img = new GImage("Media/Enemy spaceship3(updated).png");
         EnemySpaceship3Img.setLocation(x, y);
         return EnemySpaceship3Img;
     }
     
     public static GImage getEnemySpaceship4(double x, double y) {
-        GImage EnemySpaceship4Img = new GImage("Media/Enemy spaceship4(updated).png)");
+        GImage EnemySpaceship4Img = new GImage("Media/Enemy spaceship4(updated).png");
         EnemySpaceship4Img.setLocation(x, y);
         return EnemySpaceship4Img;
     }
     
     public static GImage getEnemySpaceship5(double x, double y) {
-        GImage EnemySpaceship5Img = new GImage("Media/Enemy spaceship5(updated).png)");
+        GImage EnemySpaceship5Img = new GImage("Media/Enemy spaceship5(updated).png");
         EnemySpaceship5Img.setLocation(x, y);
         return EnemySpaceship5Img;
     }
