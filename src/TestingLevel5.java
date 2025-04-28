@@ -17,7 +17,7 @@ public class TestingLevel5 extends GraphicsProgram implements ActionListener {
 	public static final int PROGRAM_HEIGHT = 600;
 	public static final int SIZE = 25;
 	public static final int MS = 25;
-	public static final int ENEMY_PROJ_SPEED = 34 ;
+	public static final int ENEMY_PROJ_SPEED = 7 ;
 	public static final int ENEMY_PROJ_SIZE = 12;
 	private final int USER_PROJ_SPEED = 10;
 	private final int USER_PROJ_SIZE = 8;
@@ -61,14 +61,15 @@ public class TestingLevel5 extends GraphicsProgram implements ActionListener {
 		BufferedImage cursorImg = new BufferedImage(16, 16, BufferedImage.TYPE_INT_ARGB);
 		Cursor blankCursor = toolkit.createCustomCursor(cursorImg, new Point(0, 0), "blank cursor");
 		getGCanvas().setCursor(blankCursor);
-	}
-
-	public void run() {
-		rgen = RandomGenerator.getInstance();
+		
 		enemyBullets = new ArrayList<>();
 		//enemyVisuals = new ArrayList<>();
 		userBullets = new ArrayList<>();
 		enemyImages = new ArrayList<>();
+	}
+
+	public void run() {
+		rgen = RandomGenerator.getInstance();
 		
 		GImage background = new GImage("Media/Background (T-minus Infinitum).png", 0, 0);
 		add(background);
