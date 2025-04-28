@@ -17,7 +17,7 @@ public class TestingLevel5 extends GraphicsProgram implements ActionListener {
 	public static final int PROGRAM_HEIGHT = 600;
 	public static final int SIZE = 25;
 	public static final int MS = 25;
-	public static final int ENEMY_PROJ_SPEED = 5 ;//speed 34
+	public static final int ENEMY_PROJ_SPEED = 34 ;//speed 34
 	public static final int ENEMY_PROJ_SIZE = 12;
 	private final int USER_PROJ_SPEED = 10;
 	private final int USER_PROJ_SIZE = 8;
@@ -672,32 +672,61 @@ public class TestingLevel5 extends GraphicsProgram implements ActionListener {
  	}
  
  	private void restartGame() {
- 		if (movement != null) {
- 			movement.stop();
- 		}
- 
- 		removeAll();
- 
- 		// Reset game state
- 		elapsedTime = 0;
- 		score = 0;
- 		msCounter = 0;
- 		enemyTicksSinceLastShot = 0;
- 		mainShipTicksSinceLastShot = 0;
- 		bonusStartTime = System.currentTimeMillis();
- 		mousePressed = false;
- 		gameOverFlag = false;
- 		levelEnded = false;
- 		waveNumber = 1;
- 
- 		enemyBullets.clear();
- 		userBullets.clear();
- 		//enemyVisuals.clear();
- 
- 		// Restart run logic
- 		run();
- 
- 	}
+	    if (movement != null) {
+	        movement.stop();
+	    }
+
+	    // Remove all bullets from canvas and clear lists
+	    for (GOval bullet : userBullets) {
+	        remove(bullet);
+	    }
+	    userBullets.clear();
+
+	    for (GOval bullet : enemyBullets) {
+	        remove(bullet);
+	    }
+	    enemyBullets.clear();
+
+	    // Remove all enemies from canvas and clear list
+	    for (GImage enemy : enemyImages) {
+	        remove(enemy);
+	    }
+	    enemyImages.clear();
+
+	    // Remove main ship image if present
+	    if (mainShipImage != null) {
+	        remove(mainShipImage);
+	        mainShipImage = null;
+	    }
+
+	    // Remove retry button and label if present
+	    if (retryButton != null) {
+	        remove(retryButton);
+	        retryButton = null;
+	    }
+	    if (retryLabel != null) {
+	        remove(retryLabel);
+	        retryLabel = null;
+	    }
+
+	    removeAll(); // Optional, to clear any remaining graphics
+
+	    // Reset game state variables
+	    elapsedTime = 0;
+	    score = 0;
+	    msCounter = 0;
+	    enemyTicksSinceLastShot = 0;
+	    mainShipTicksSinceLastShot = 0;
+	    bonusStartTime = System.currentTimeMillis();
+	    mousePressed = false;
+	    gameOverFlag = false;
+	    levelEnded = false;
+	    bonusPoints = 0;
+	    waveNumber = 1; // Start from wave 1
+
+	    // Restart the level
+	    run();
+	}
  	
  	 /*private void updateScore(int points) {
          score += points; // Update the local score
