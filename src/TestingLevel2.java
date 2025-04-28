@@ -17,7 +17,7 @@ public class TestingLevel2 extends GraphicsProgram implements ActionListener {
 	public static final int PROGRAM_HEIGHT = 600;
 	public static final int SIZE = 25;
 	public static final int MS = 25;
-	public static final int ENEMY_PROJ_SPEED = 30 ;
+	public static final int ENEMY_PROJ_SPEED = 25 ;
 	public static final int ENEMY_PROJ_SIZE = 12;
 	private final int USER_PROJ_SPEED = 10;
 	private final int USER_PROJ_SIZE = 8;
@@ -26,7 +26,7 @@ public class TestingLevel2 extends GraphicsProgram implements ActionListener {
 	private int enemyShootCooldown = 20;
 	private int enemyTicksSinceLastShot = 0;
 
-	private int mainShipShootCooldown = 10; // lower = faster shooting
+	private int mainShipShootCooldown = 12; // lower = faster shooting
 	private int mainShipTicksSinceLastShot = 0;
 
 	private int elapsedTime = 0; // time in seconds
