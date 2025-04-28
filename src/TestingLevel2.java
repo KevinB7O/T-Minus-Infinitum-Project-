@@ -43,12 +43,14 @@ public class TestingLevel2 extends GraphicsProgram implements ActionListener {
 	private boolean mousePressed = false;
 	private boolean gameOverFlag = false;
 
-	private ArrayList<GPolygon> enemyVisuals;
-	private GPolygon visualMainShip;
+	//private ArrayList<GPolygon> enemyVisuals;
+	private ArrayList<GImage> enemyImages;
+	//private GPolygon visualMainShip;
 	private GRect retryButton;
 	private GLabel retryLabel;
 	
 	private int waveNumber = 1;
+	private GImage mainShipImage;
 	private boolean levelEnded = false;
 	private GameData gameData;
 
@@ -64,8 +66,16 @@ public class TestingLevel2 extends GraphicsProgram implements ActionListener {
 	public void run() {
 		rgen = RandomGenerator.getInstance();
 		enemyBullets = new ArrayList<>();
-		enemyVisuals = new ArrayList<>();
+		//enemyVisuals = new ArrayList<>();
 		userBullets = new ArrayList<>();
+		enemyImages = new ArrayList<>();
+		
+		GImage background = new GImage("Media/Background (T-minus Infinitum).png", 0, 0);
+		add(background);
+		
+		
+		mainShipImage = GraphicsPane.getMainSpaceshipImage(100, 400);
+		add(mainShipImage);
 		
 		int carriedOverScore = 0;
 		if (gameData != null) {
@@ -77,9 +87,9 @@ public class TestingLevel2 extends GraphicsProgram implements ActionListener {
 	        score = gameData.getTotalScore();
 	    }
 
-		UserSpaceship mainship = new UserSpaceship(SpaceshipType.userSpaceship, 14, 12);
+		/*UserSpaceship mainship = new UserSpaceship(SpaceshipType.userSpaceship, 14, 12);
 		visualMainShip = mainship.getVisualMainShip();
-		add(visualMainShip);
+		add(visualMainShip);*/
 
 		
 		spawnWave(1);
@@ -90,19 +100,20 @@ public class TestingLevel2 extends GraphicsProgram implements ActionListener {
 		// Added a timer
 		timerLabel = new GLabel("Time: 0s", PROGRAM_WIDTH - 900, 20);
 		timerLabel.setFont("SansSerif-bold-16");
+		timerLabel.setColor(Color.YELLOW);
 		add(timerLabel);
 
 		// Added a timer tracking bonus points
 		bonusStartTime = System.currentTimeMillis();
 		bonusTimerLabel = new GLabel("Bonus Time: 30", 0, 60);
 		bonusTimerLabel.setFont("SansSerif-bold-16");
-		bonusTimerLabel.setColor(Color.BLACK);
+		bonusTimerLabel.setColor(Color.YELLOW);
 		add(bonusTimerLabel);
 
 		// Added a point system
 		scoreLabel = new GLabel("Score: " + carriedOverScore, 810, 20);
 		scoreLabel.setFont(new Font("SansSerif", Font.BOLD, 16));
-		scoreLabel.setColor(Color.BLACK);
+		scoreLabel.setColor(Color.YELLOW);
 		add(scoreLabel);
 		hideCursor();
 
@@ -115,12 +126,26 @@ public class TestingLevel2 extends GraphicsProgram implements ActionListener {
 	public void userSpaceshipMovement(MouseEvent e) {
 		double mouseX = e.getX();
 		double mouseY = e.getY();
-		visualMainShip.setLocation(mouseX, mouseY);
+		//visualMainShip.setLocation(mouseX, mouseY);
+		if (mainShipImage != null) {
+	        mainShipImage.setLocation(
+	            mouseX - mainShipImage.getWidth() / 2,
+	            mouseY - mainShipImage.getHeight() / 2
+	        );
+	    }
 	}
 
 	public void projectileCollisionDetection() {
 		for (GOval bullet : enemyBullets) {
-			if (bullet.getBounds().intersects(visualMainShip.getBounds())) {
+			/*if (bullet.getBounds().intersects(visualMainShip.getBounds())) {
+				System.out.println("Collision Detected!");
+				enemyBullets.remove(bullet);
+				remove(bullet);
+				gameOver();
+				break;
+			}*/
+			
+			if (bullet.getBounds().intersects(mainShipImage.getBounds())) {
 				System.out.println("Collision Detected!");
 				enemyBullets.remove(bullet);
 				remove(bullet);
@@ -131,7 +156,7 @@ public class TestingLevel2 extends GraphicsProgram implements ActionListener {
 	}
 
 	public void enemyCollisionDetection() {
-		for (GPolygon enemyVisual : enemyVisuals) {
+		/*for (GPolygon enemyVisual : enemyVisuals) {
 			if (enemyVisual.getBounds().intersects(visualMainShip.getBounds())) {
 				System.out.println("Enemy Collision Detected!");
 				remove(enemyVisual);
@@ -139,7 +164,7 @@ public class TestingLevel2 extends GraphicsProgram implements ActionListener {
 				gameOver();
 				break;
 			}
-		}
+		}*/
 	}
 
 	@Override
@@ -162,8 +187,10 @@ public class TestingLevel2 extends GraphicsProgram implements ActionListener {
 	}
 
 	private void shootFromUser() {
-		double shipX = visualMainShip.getX() + SIZE / 2;
-		double shipY = visualMainShip.getY();
+		//double shipX = visualMainShip.getX() + SIZE / 2;
+		//double shipY = visualMainShip.getY();
+		double shipX = mainShipImage.getX() + SIZE / 2;
+		double shipY = mainShipImage.getY();
 
 		GOval bullet = new GOval(shipX - USER_PROJ_SIZE / 2, shipY - USER_PROJ_SIZE, USER_PROJ_SIZE, USER_PROJ_SIZE);
 		bullet.setFilled(true);
@@ -189,7 +216,7 @@ public class TestingLevel2 extends GraphicsProgram implements ActionListener {
 	}
 	
 	private void spawnWave(int wave) {
-	    enemyVisuals.clear();
+	    /*enemyVisuals.clear();
 
 	    if (wave == 1) {
 	        Enemyship1[] wave1Enemies = {
@@ -232,7 +259,46 @@ public class TestingLevel2 extends GraphicsProgram implements ActionListener {
  				gameOver();
  				break;
  			}
- 		}
+ 		}*/
+		
+		enemyImages.clear();
+
+	    if (wave == 1) {
+	        // Define positions for wave 1 enemies
+	        int[] startRows = {5, 5, 5, 1, 1, 1, 1};
+	        int[] startCols = {12, 17, 22, 8, 13, 18, 22};
+
+	        for (int i = 0; i < startRows.length; i++) {
+	            double x = startCols[i] * SIZE;
+	            double y = startRows[i] * SIZE;
+	            GImage enemyImage = GraphicsPane.getEnemySpaceship1(x, y);
+	            enemyImages.add(enemyImage);
+	            add(enemyImage);
+	        }
+	    } else if (wave == 2) {
+	        // Define positions for wave 2 enemies
+	        int[] startRows = {5, 5, 5, 1, 1, 1, 1};
+	        int[] startCols = {12, 17, 22, 8, 13, 18, 22};
+
+	        for (int i = 0; i < startRows.length; i++) {
+	            double x = startCols[i] * SIZE;
+	            double y = startRows[i] * SIZE;
+	            GImage enemyImage = GraphicsPane.getEnemySpaceship2(x, y);
+	            enemyImages.add(enemyImage);
+	            add(enemyImage);
+	        }
+	    }
+	    
+	    // Update collision detection for enemy bullets
+	    for (GOval bullet : enemyBullets) {
+	        if (bullet.getBounds().intersects(mainShipImage.getBounds())) {
+	            System.out.println("Collision Detected!");
+	            enemyBullets.remove(bullet);
+	            remove(bullet);
+	            gameOver();
+	            break;
+	        }
+	    }
  	}
 
  
@@ -281,7 +347,8 @@ public class TestingLevel2 extends GraphicsProgram implements ActionListener {
  	    }
 
  	    // Enemy shooting
- 	    for (GPolygon enemy : enemyVisuals) {
+ 	    
+ 	    /*for (GPolygon enemy : enemyVisuals) {
  	        enemyTicksSinceLastShot++;
  	        if (enemyTicksSinceLastShot >= enemyShootCooldown) {
  	            if (rgen.nextBoolean(0.1)) { // 10% chance to shoot
@@ -289,10 +356,24 @@ public class TestingLevel2 extends GraphicsProgram implements ActionListener {
  	                enemyTicksSinceLastShot = 0;
  	            }
  	        }
- 	    }
+ 	    }*/
+ 	    
+ 	   for (GImage enemy : enemyImages) {
+		    enemyTicksSinceLastShot++;
+		    if (enemyTicksSinceLastShot >= enemyShootCooldown) {
+		        if (rgen.nextBoolean(0.1)) {
+		            shootFromEnemy(
+		                enemy.getX() + enemy.getWidth() / 2, // center of image
+		                enemy.getY() + enemy.getHeight()      // bottom of image (ship's tip)
+		            );
+		            enemyTicksSinceLastShot = 0;
+		        }
+		    }
+		}
 
  	    // Enemy movement with collision and boundary detection
- 	    for (GPolygon enemy : new ArrayList<>(enemyVisuals)) {
+ 	    
+ 	    /*for (GPolygon enemy : new ArrayList<>(enemyVisuals)) {
  	        if (rgen.nextBoolean(0.05)) { // 5% chance to move
  	            double dx = rgen.nextBoolean() ? ENEMY_MOVE_SPEED : -ENEMY_MOVE_SPEED;
 
@@ -327,7 +408,49 @@ public class TestingLevel2 extends GraphicsProgram implements ActionListener {
  	                }
  	            }
  	        }
- 	    }
+ 	    }*/
+ 	   
+ 	  for (GImage enemy : new ArrayList<>(enemyImages)) {
+		    if (rgen.nextBoolean(0.05)) { // 5% chance to move
+		        double dx = rgen.nextBoolean() ? ENEMY_MOVE_SPEED : -ENEMY_MOVE_SPEED;
+
+		        // Check if the enemy would collide with another after moving
+		        boolean willCollide = false;
+		        double newX = enemy.getX() + dx;
+		        double newY = enemy.getY(); // No change in Y, since they only move left or right
+
+		        // Manually calculate the bounds of the moving enemy
+		        double enemyLeft = newX;
+		        double enemyRight = newX + enemy.getWidth();
+		        double enemyTop = newY;
+		        double enemyBottom = newY + enemy.getHeight();
+
+		        // Iterate through all other enemies
+		        for (GImage other : enemyImages) {
+		            if (other != enemy) {
+		                // Manually calculate the bounds of the other enemy
+		                double otherLeft = other.getX();
+		                double otherRight = other.getX() + other.getWidth();
+		                double otherTop = other.getY();
+		                double otherBottom = other.getY() + other.getHeight();
+
+		                // Check if their bounding boxes overlap
+		                if (enemyRight > otherLeft && enemyLeft < otherRight && enemyBottom > otherTop
+		                        && enemyTop < otherBottom) {
+		                    willCollide = true;
+		                    break; // No need to check further if collision is detected
+		                }
+		            }
+		        }
+
+		        // If no collision, apply the move
+		        if (!willCollide) {
+ 	                if (newX >= 0 && newX + SIZE <= PROGRAM_WIDTH) {
+ 	                    enemy.move(dx, 0);
+ 	                }
+		        }
+		    }
+		}
 
  	    // Timer update for elapsed time
  	    msCounter += MS;
@@ -355,55 +478,77 @@ public class TestingLevel2 extends GraphicsProgram implements ActionListener {
  
  	private void moveUserBullets() {
  		ArrayList<GOval> bulletsToRemove = new ArrayList<>();
- 		ArrayList<GPolygon> enemiesToRemove = new ArrayList<>();
+ 		/*ArrayList<GPolygon> enemiesToRemove = new ArrayList<>();*/
  
  		for (GOval bullet : userBullets) {
- 			bullet.move(0, -USER_PROJ_SPEED);
- 
- 			if (bullet.getY() < 0) {
- 				bulletsToRemove.add(bullet);
- 				continue;
- 			}
- 
- 			for (GPolygon enemy : enemyVisuals) {
- 				if (bullet.getBounds().intersects(enemy.getBounds())) {
- 					bulletsToRemove.add(bullet);
- 					enemiesToRemove.add(enemy);
- 					score += 100; // +100 points per enemy
- 					//updateScore(100);
- 					updateScoreLabel();
- 					break;
- 				}
- 			}
- 		}
- 
- 		for (GOval bullet : bulletsToRemove) {
- 			remove(bullet);
- 			userBullets.remove(bullet);
- 		}
- 
- 		for (GPolygon enemy : enemiesToRemove) {
- 			remove(enemy);
- 			enemyVisuals.remove(enemy);
- 		}
- 
- 		if (enemyVisuals.isEmpty()) {
- 			if (waveNumber == 1) {
- 				waveNumber = 2;
- 				spawnWave(2);
- 			} else {
- 				// Level completed
- 				long timeToClear = (System.currentTimeMillis() - bonusStartTime) / 1000;
- 				if (timeToClear <= BONUS_TIME_LIMIT) {
- 					bonusPoints += 1500;
- 					updateBonusPointsLabel();
- 				}
- 				movement.stop();
- 				showEndLevelSummary();// Show the end level summary
- 			}
- 		}
- 
- 	}
+			bullet.move(0, -USER_PROJ_SPEED);
+
+			if (bullet.getY() < 0) {
+				bulletsToRemove.add(bullet);
+				continue;
+			}
+
+			/*for (GPolygon enemy : enemyVisuals) {
+				if (bullet.getBounds().intersects(enemy.getBounds())) {
+					bulletsToRemove.add(bullet);
+					enemiesToRemove.add(enemy);
+					score += 100; // +100 points per enemy
+					//updateScore(100);
+					updateScoreLabel();
+					break;
+				}
+			}
+		}*/
+			
+			for (GImage enemy : enemyImages) {
+	            if (bullet.getBounds().intersects(enemy.getBounds())) {
+	                bulletsToRemove.add(bullet);
+	                //enemiesToRemove.add(enemy);
+	                remove(enemy);               // Remove from display
+	                enemyImages.remove(enemy);  // Remove from ArrayList
+	                score += 100; // +100 points per enemy
+	                //updateScore(100);
+	                updateScoreLabel();
+	                break;
+	            }
+	        }
+	    }
+
+		for (GOval bullet : bulletsToRemove) {
+			remove(bullet);
+			userBullets.remove(bullet);
+		}
+
+		/*for (GPolygon enemy : enemiesToRemove) {
+			remove(enemy);
+			enemyVisuals.remove(enemy);
+		}*/
+		
+		/*for (GImage enemy : enemiesToRemove) {
+	        remove(enemy);
+	        enemyImages.remove(enemy);
+	    }*/
+
+		/*if (enemyVisuals.isEmpty()) {
+			long timeToClear = (System.currentTimeMillis() - bonusStartTime) / 1000;
+			if (timeToClear <= BONUS_TIME_LIMIT) {
+				bonusPoints += 1500; // Add to bonus points for finishing the level quickly
+				updateBonusPointsLabel();
+			}
+			movement.stop();
+			showEndLevelSummary();// Show the end level summary
+		}*/
+		if (enemyImages.isEmpty()) {
+	        if (waveNumber < 2) {  // Assuming 2 waves total
+	            waveNumber++;
+	            spawnWave(waveNumber);
+	        } else {
+	            movement.stop();
+	            showEndLevelSummary();
+	            levelEnded = true;
+	        }
+	    }
+	}
  	
  	private void showEndLevelSummary() {
 		levelEnded = true;
@@ -485,7 +630,7 @@ public class TestingLevel2 extends GraphicsProgram implements ActionListener {
  
  		enemyBullets.clear();
  		userBullets.clear();
- 		enemyVisuals.clear();
+ 		//enemyVisuals.clear();
  
  		// Restart run logic
  		run();
