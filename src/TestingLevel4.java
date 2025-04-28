@@ -176,94 +176,89 @@ public class TestingLevel4 extends GraphicsProgram implements ActionListener {
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		moveAllEnemyBullets();
-		moveUserBullets();
+ 	    moveAllEnemyBullets();
+ 	    moveUserBullets();
 
-		// Main ship shooting while mouse is held down
-		if (mousePressed && mainShipTicksSinceLastShot >= mainShipShootCooldown) {
-			shootFromUser();
-			mainShipTicksSinceLastShot = 0;
-		}
-		if (mainShipTicksSinceLastShot < mainShipShootCooldown) {
-			mainShipTicksSinceLastShot++;
-		}
+ 	    // Main ship shooting while mouse is held down
+ 	    if (mousePressed && mainShipTicksSinceLastShot >= mainShipShootCooldown) {
+ 	        shootFromUser();
+ 	        mainShipTicksSinceLastShot = 0;
+ 	    }
+ 	    if (mainShipTicksSinceLastShot < mainShipShootCooldown) {
+ 	        mainShipTicksSinceLastShot++;
+ 	    }
 
-		// Enemy shooting
-		for (GPolygon enemy : enemyVisuals) {
-			enemyTicksSinceLastShot++;
-			if (enemyTicksSinceLastShot >= enemyShootCooldown) {
-				if (rgen.nextBoolean(0.1)) {
-					shootFromEnemy(enemy.getX() + SIZE / 2, enemy.getY() + SIZE);
-					enemyTicksSinceLastShot = 0;
-				}
-			}
-		}
+ 	    // Enemy shooting
+ 	    for (GPolygon enemy : enemyVisuals) {
+ 	        enemyTicksSinceLastShot++;
+ 	        if (enemyTicksSinceLastShot >= enemyShootCooldown) {
+ 	            if (rgen.nextBoolean(0.1)) { // 10% chance to shoot
+ 	                shootFromEnemy(enemy.getX() + SIZE / 2, enemy.getY() + SIZE);
+ 	                enemyTicksSinceLastShot = 0;
+ 	            }
+ 	        }
+ 	    }
 
-		// Enemy movement with collision detection
-		for (GPolygon enemy : new ArrayList<>(enemyVisuals)) {
-			if (rgen.nextBoolean(0.05)) { // 5% chance to move
-				double dx = rgen.nextBoolean() ? ENEMY_MOVE_SPEED : -ENEMY_MOVE_SPEED;
+ 	    // Enemy movement with collision and boundary detection
+ 	    for (GPolygon enemy : new ArrayList<>(enemyVisuals)) {
+ 	        if (rgen.nextBoolean(0.05)) { // 5% chance to move
+ 	            double dx = rgen.nextBoolean() ? ENEMY_MOVE_SPEED : -ENEMY_MOVE_SPEED;
 
-				// Check if the enemy would collide with another after moving
-				boolean willCollide = false;
-				double newX = enemy.getX() + dx;
-				double newY = enemy.getY(); // No change in Y, since they only move left or right
+ 	            boolean willCollide = false;
+ 	            double newX = enemy.getX() + dx;
+ 	            double newY = enemy.getY(); // No change in Y
 
-				// Manually calculate the bounds of the moving enemy
-				double enemyLeft = newX;
-				double enemyRight = newX + SIZE;
-				double enemyTop = newY;
-				double enemyBottom = newY + SIZE;
+ 	            double enemyLeft = newX;
+ 	            double enemyRight = newX + SIZE;
+ 	            double enemyTop = newY;
+ 	            double enemyBottom = newY + SIZE;
 
-				// Iterate through all other enemies
-				for (GPolygon other : enemyVisuals) {
-					if (other != enemy) {
-						// Manually calculate the bounds of the other enemy
-						double otherLeft = other.getX();
-						double otherRight = other.getX() + SIZE;
-						double otherTop = other.getY();
-						double otherBottom = other.getY() + SIZE;
+ 	            for (GPolygon other : enemyVisuals) {
+ 	                if (other != enemy) {
+ 	                    double otherLeft = other.getX();
+ 	                    double otherRight = other.getX() + SIZE;
+ 	                    double otherTop = other.getY();
+ 	                    double otherBottom = other.getY() + SIZE;
 
-						// Check if their bounding boxes overlap
-						if (enemyRight > otherLeft && enemyLeft < otherRight && enemyBottom > otherTop
-								&& enemyTop < otherBottom) {
-							willCollide = true;
-							break; // No need to check further if collision is detected
-						}
-					}
-				}
+ 	                    if (enemyRight > otherLeft && enemyLeft < otherRight &&
+ 	                        enemyBottom > otherTop && enemyTop < otherBottom) {
+ 	                        willCollide = true;
+ 	                        break;
+ 	                    }
+ 	                }
+ 	            }
 
-				// If no collision, apply the move
-				if (!willCollide) {
-					enemy.move(dx, 0);
-				}
-			}
+ 	            // Only move if no collision AND within screen boundaries
+ 	            if (!willCollide) {
+ 	                if (newX >= 0 && newX + SIZE <= PROGRAM_WIDTH) {
+ 	                    enemy.move(dx, 0);
+ 	                }
+ 	            }
+ 	        }
+ 	    }
 
-		}
+ 	    // Timer update for elapsed time
+ 	    msCounter += MS;
+ 	    if (msCounter >= 1000) { // 1000 milliseconds = 1 second
+ 	        elapsedTime++;
+ 	        timerLabel.setLabel("Time: " + elapsedTime + "s");
+ 	        msCounter = 0;
+ 	    }
 
-		// Added a timer counting how much time elapsed in the level
-		msCounter += MS;
+ 	    // Bonus countdown timer update
+ 	    long elapsedBonusTime = (System.currentTimeMillis() - bonusStartTime) / 1000;
+ 	    int remainingBonusTime = BONUS_TIME_LIMIT - (int) elapsedBonusTime;
+ 	    if (remainingBonusTime >= 0) {
+ 	        bonusTimerLabel.setLabel("Bonus Time: " + remainingBonusTime);
+ 	    } else {
+ 	        bonusTimerLabel.setLabel("Bonus Time: 0");
+ 	    }
 
-		if (msCounter >= 1000) { // 1000 milliseconds = 1 second
-			elapsedTime++;
-			timerLabel.setLabel("Time: " + elapsedTime + "s");
-			msCounter = 0;
-		}
+ 	    if (levelEnded) return;
 
-		// Bonus countdown timer update
-		long elapsedBonusTime = (System.currentTimeMillis() - bonusStartTime) / 1000;
-		int remainingBonusTime = BONUS_TIME_LIMIT - (int) elapsedBonusTime;
-
-		if (remainingBonusTime >= 0) {
-			bonusTimerLabel.setLabel("Bonus Time: " + remainingBonusTime);
-		} else {
-			bonusTimerLabel.setLabel("Bonus Time: 0");
-		}
-
-		projectileCollisionDetection();
-		enemyCollisionDetection();
-		if (levelEnded) return;
-	}
+ 	    projectileCollisionDetection();
+ 	    enemyCollisionDetection();
+ 	}
 
 	private void shootFromEnemy(double x, double y) {
 		double enemyTipX = x;
