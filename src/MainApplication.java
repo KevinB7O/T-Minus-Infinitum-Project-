@@ -58,6 +58,12 @@ public class MainApplication extends GraphicsProgram{
 		switchToScreen(welcomePane);
 	}
 	
+	public void startGame() {
+	    // Logic to start the game
+	    System.out.println("Game is starting...");
+	}
+
+	
 	
 	protected void switchToScreen(GraphicsPane newScreen) {
 		if(currentScreen != null) {
