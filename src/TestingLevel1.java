@@ -104,7 +104,7 @@ public class TestingLevel1 extends GraphicsProgram implements ActionListener {
 		
 		
 		int[] startRows = {5, 5, 5, 1, 1, 1, 1};
-		int[] startCols = {12, 17, 22, 8, 13, 18, 23};
+		int[] startCols = {12, 17, 22, 8, 13, 18, 22};
 
 		for (int i = 0; i < startRows.length; i++) {
 		    double x = startCols[i] * SIZE;
@@ -472,8 +472,8 @@ public class TestingLevel1 extends GraphicsProgram implements ActionListener {
 	            if (bullet.getBounds().intersects(enemy.getBounds())) {
 	                bulletsToRemove.add(bullet);
 	                //enemiesToRemove.add(enemy);
-	                remove(enemy);
-	                enemyImages.remove(enemy);
+	                remove(enemy);               // Remove from display
+	                enemyImages.remove(enemy);  // Remove from ArrayList
 	                score += 100; // +100 points per enemy
 	                //updateScore(100);
 	                updateScoreLabel();
