@@ -19,6 +19,12 @@ public class GraphicsPane {
         return mainShipImg;
     }
     
+    public static GImage getEnemySpaceship1(double x, double y) {
+        GImage EnemySpaceship1Img = new GImage("Media/User spaceship (Enemy spaceships (inherited and initial spaceship; cropped).png)");
+        EnemySpaceship1Img.setLocation(x, y);
+        return EnemySpaceship1Img;
+    }
+    
     
    // Returns a GImage for the background (fills window)
     public static GImage getBackground() {
