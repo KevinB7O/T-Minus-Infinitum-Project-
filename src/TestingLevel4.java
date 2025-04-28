@@ -590,7 +590,7 @@ public class TestingLevel4 extends GraphicsProgram implements ActionListener {
  	private void nextLevel() {
 	    // Logic to transition to the next level
 	    System.out.println("Moving to next level...");
-	    TestingLevel3 next = new TestingLevel3();
+	    TestingLevel5 next = new TestingLevel5();
 	    next.setGameData(gameData);
 	    next.start(); // or next.startApplication() if needed
 	}
