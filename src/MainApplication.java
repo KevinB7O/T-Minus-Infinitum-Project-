@@ -15,6 +15,8 @@ public class MainApplication extends GraphicsProgram{
 	private DescriptionPane descriptionPane;
 	private GraphicsPane currentScreen; 
 	private TestingLevel1 level1;
+	private EndLevelSummary endlevelsummary;
+	private EndGameSummary endgamesummary;
 	public MainApplication() {
 		super();
 	}
