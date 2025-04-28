@@ -17,7 +17,7 @@ public class TestingLevel3 extends GraphicsProgram implements ActionListener {
 	public static final int PROGRAM_HEIGHT = 600;
 	public static final int SIZE = 25;
 	public static final int MS = 25;
-	public static final int ENEMY_PROJ_SPEED = 7 ;
+	public static final int ENEMY_PROJ_SPEED = 30 ;
 	public static final int ENEMY_PROJ_SIZE = 12;
 	private final int USER_PROJ_SPEED = 10;
 	private final int USER_PROJ_SIZE = 8;
