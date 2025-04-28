@@ -21,7 +21,7 @@ public class TestingLevel1 extends GraphicsProgram implements ActionListener {
 	public static final int ENEMY_PROJ_SIZE = 10;
 	private final int USER_PROJ_SPEED = 7;
 	private final int USER_PROJ_SIZE = 8;
-	public static final int ENEMY_MOVE_SPEED = 7;
+	public static final int ENEMY_MOVE_SPEED = 9;
 
 	private int enemyShootCooldown = 50;
 	private int enemyTicksSinceLastShot = 0;
