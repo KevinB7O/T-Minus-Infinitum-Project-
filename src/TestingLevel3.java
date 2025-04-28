@@ -17,16 +17,16 @@ public class TestingLevel3 extends GraphicsProgram implements ActionListener {
 	public static final int PROGRAM_HEIGHT = 600;
 	public static final int SIZE = 25;
 	public static final int MS = 25;
-	public static final int ENEMY_PROJ_SPEED = 9;
-	public static final int ENEMY_PROJ_SIZE = 15;
-	private final int USER_PROJ_SPEED = 7;
+	public static final int ENEMY_PROJ_SPEED = 30;
+	public static final int ENEMY_PROJ_SIZE = 13;
+	private final int USER_PROJ_SPEED = 10;
 	private final int USER_PROJ_SIZE = 8;
 	private static final int ENEMY_MOVE_SPEED = 15;
 
-	private int enemyShootCooldown = 50;
+	private int enemyShootCooldown = 18; // lower = faster shooting
 	private int enemyTicksSinceLastShot = 0;
 
-	private int mainShipShootCooldown = 13; // lower = faster shooting
+	private int mainShipShootCooldown = 10; // lower = faster shooting
 	private int mainShipTicksSinceLastShot = 0;
 
 	private int elapsedTime = 0; // time in seconds
