@@ -61,12 +61,7 @@ public class MainApplication extends GraphicsProgram {
         TestingLevel1 level1 = new TestingLevel1();
         new Thread(() -> level1.start()).start();
     }
-
-    // This launches TestingLevel2 as a new window (if you want)
-    public void launchLevel2() {
-        TestingLevel2 level2 = new TestingLevel2();
-        new Thread(() -> level2.start()).start();
-    }
+    
 
     protected void switchToScreen(GraphicsPane newScreen) {
         if (currentScreen != null) {

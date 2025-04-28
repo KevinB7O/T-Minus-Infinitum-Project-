@@ -40,7 +40,7 @@ public class GameData {
     	this.totalBonusPoints = totalBonusPoints;
     }
     
-  //Getter and setter
+    
     public int getTotalElapsedTime() {
         return totalElapsedTime;
     }

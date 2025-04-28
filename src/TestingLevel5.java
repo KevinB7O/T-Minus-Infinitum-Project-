@@ -42,6 +42,8 @@ public class TestingLevel5 extends GraphicsProgram implements ActionListener {
 
 	private boolean mousePressed = false;
 	private boolean gameOverFlag = false;
+	
+	
 
 	//private ArrayList<GPolygon> enemyVisuals;
 	private ArrayList<GImage> enemyImages;
@@ -54,6 +56,9 @@ public class TestingLevel5 extends GraphicsProgram implements ActionListener {
 	private boolean levelEnded = false;
 	private GameData gameData;
 
+	
+	
+	
 	public void init() {
 		setSize(PROGRAM_WIDTH, PROGRAM_HEIGHT);
 		addMouseListeners();
@@ -591,8 +596,8 @@ public class TestingLevel5 extends GraphicsProgram implements ActionListener {
  	private void nextLevel() {
 	    // Logic to transition to the next level
 	    System.out.println("Moving to next level...");
-	    TestingLevel3 next = new TestingLevel3();
-	    next.setGameData(gameData);
+	    MainApplication next = new MainApplication();
+	    //next.setGameData(gameData);
 	    next.start(); // or next.startApplication() if needed
 	}
  	
