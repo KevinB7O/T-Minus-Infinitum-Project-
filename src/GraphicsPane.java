@@ -61,7 +61,31 @@ public class GraphicsPane {
         mainbulletImage.scale(0.5, 0.5); // Adjust scale as needed
         return mainbulletImage;
     }
+    
+    
+    public static GImage getEnemyBulletImageRed(double x, double y) {
+        GImage enemybulletImageRed= new GImage("Media/Bullet assets (Red shot) cropped.png", x, y); // Use your bullet image path
+        enemybulletImageRed.scale(0.5, 0.5); // Adjust scale as needed
+        return enemybulletImageRed;
+    }
+    
+    public static GImage getEnemyBulletImagePink(double x, double y) {
+        GImage enemybulletImagePink= new GImage("Media/Bullet assets (pink shot) cropped.png", x, y); // Use your bullet image path
+        enemybulletImagePink.scale(0.5, 0.5); // Adjust scale as needed
+        return enemybulletImagePink;
+    }
 	
+    public static GImage getEnemyBulletImageYellow(double x, double y) {
+        GImage enemybulletImageYellow= new GImage("Media/Bullet assets (Yellow shot) cropped.png", x, y); // Use your bullet image path
+        enemybulletImageYellow.scale(0.5, 0.5); // Adjust scale as needed
+        return enemybulletImageYellow;
+    }
+    
+    public static GImage getEnemyBulletImageGreen(double x, double y) {
+        GImage enemybulletImageGreen= new GImage("Media/Bullet assets (Green shot) cropped.png", x, y); // Use your bullet image path
+        enemybulletImageGreen.scale(0.5, 0.5); // Adjust scale as needed
+        return enemybulletImageGreen;
+    }
 	
 	
 	

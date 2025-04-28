@@ -8,8 +8,10 @@ import java.awt.event.*;
 import java.awt.image.BufferedImage;
 
 public class TestingLevel2 extends GraphicsProgram implements ActionListener {
-	private ArrayList<GOval> enemyBullets;
-	private ArrayList<GOval> userBullets;
+	//private ArrayList<GOval> enemyBullets;
+    //private ArrayList<GOval> userBullets;
+	private ArrayList<GImage> enemyBullets1;
+	private ArrayList<GImage> userBullets1;
 	private Timer movement;
 	private RandomGenerator rgen;
 
@@ -69,9 +71,11 @@ public class TestingLevel2 extends GraphicsProgram implements ActionListener {
 		Cursor blankCursor = toolkit.createCustomCursor(cursorImg, new Point(0, 0), "blank cursor");
 		getGCanvas().setCursor(blankCursor);
 
-		enemyBullets = new ArrayList<>();
-		// enemyVisuals = new ArrayList<>();
-		userBullets = new ArrayList<>();
+		//enemyBullets = new ArrayList<>();
+		//enemyVisuals = new ArrayList<>();
+		//userBullets = new ArrayList<>();
+		enemyBullets1 = new ArrayList<>();
+		userBullets1 = new ArrayList<>();
 		enemyImages = new ArrayList<>();
 	}
 
@@ -140,21 +144,28 @@ public class TestingLevel2 extends GraphicsProgram implements ActionListener {
 	}
 
 	public void projectileCollisionDetection() {
-		for (GOval bullet : enemyBullets) {
-			/*
-			 * if (bullet.getBounds().intersects(visualMainShip.getBounds())) {
-			 * System.out.println("Collision Detected!"); enemyBullets.remove(bullet);
-			 * remove(bullet); gameOver(); break; }
-			 */
-
-			if (bullet.getBounds().intersects(mainShipImage.getBounds())) {
+		if (gameOverFlag) {
+	        return; // Don't process mouse events if the game is over
+	    }
+		//for (GOval bullet : enemyBullets) {
+			/*if (bullet.getBounds().intersects(visualMainShip.getBounds())) {
 				System.out.println("Collision Detected!");
 				enemyBullets.remove(bullet);
 				remove(bullet);
 				gameOver();
 				break;
-			}
-		}
+			}*/
+			
+			for (int i = 0; i < enemyBullets1.size(); i++) {
+		        GImage bullet = enemyBullets1.get(i);
+		        if (bullet.getBounds().intersects(mainShipImage.getBounds())) {
+		            System.out.println("Collision Detected!");
+		            remove(bullet);
+		            enemyBullets1.remove(i);
+		            gameOver();
+		            break;
+		        }
+		    }
 	}
 
 	public void enemyCollisionDetection() {
@@ -186,41 +197,64 @@ public class TestingLevel2 extends GraphicsProgram implements ActionListener {
 		double enemyTipX = x;
 		double enemyTipY = y - SIZE / 2;
 
-		GOval bullet = new GOval(enemyTipX - ENEMY_PROJ_SIZE / 2, enemyTipY - ENEMY_PROJ_SIZE / 2, ENEMY_PROJ_SIZE,
-				ENEMY_PROJ_SIZE);
-		bullet.setFilled(true);
-		bullet.setColor(Color.RED);
-		add(bullet);
-		enemyBullets.add(bullet);
+		/*GOval bullet = new GOval(enemyTipX - ENEMY_PROJ_SIZE / 2, enemyTipY - ENEMY_PROJ_SIZE / 2, ENEMY_PROJ_SIZE,
+		ENEMY_PROJ_SIZE);
+        bullet.setFilled(true);
+        bullet.setColor(Color.RED);*/
+        GImage bullet = GraphicsPane.getEnemyBulletImageYellow(
+        enemyTipX - ENEMY_PROJ_SIZE / 2,
+        enemyTipY - ENEMY_PROJ_SIZE / 2
+               );
+        add(bullet);
+        enemyBullets1.add(bullet);
+        //enemyBullets.add(bullet);
 	}
 
 	private void shootFromUser() {
-		// double shipX = visualMainShip.getX() + SIZE / 2;
-		// double shipY = visualMainShip.getY();
+		//double shipX = visualMainShip.getX() + SIZE / 2;
+		//double shipY = visualMainShip.getY();
 		double shipX = mainShipImage.getX() + SIZE / 2;
 		double shipY = mainShipImage.getY();
 
-		GOval bullet = new GOval(shipX - USER_PROJ_SIZE / 2, shipY - USER_PROJ_SIZE, USER_PROJ_SIZE, USER_PROJ_SIZE);
+		/*GOval bullet = new GOval(shipX - USER_PROJ_SIZE / 2, shipY - USER_PROJ_SIZE, USER_PROJ_SIZE, USER_PROJ_SIZE);
 		bullet.setFilled(true);
-		bullet.setColor(Color.GREEN);
+		bullet.setColor(Color.GREEN);*/
+		 GImage bullet = GraphicsPane.getUserBulletImage(
+			        shipX - USER_PROJ_SIZE / 2,
+			        shipY - USER_PROJ_SIZE
+			    );
 		add(bullet);
-		userBullets.add(bullet);
+		userBullets1.add(bullet);
+		//userBullets.add(bullet);
 	}
 
 	private void moveAllEnemyBullets() {
-		ArrayList<GOval> bulletsToRemove = new ArrayList<>();
+		//ArrayList<GOval> bulletsToRemove = new ArrayList<>();
+				ArrayList<GImage> bulletsToRemove = new ArrayList<>();
 
-		for (GOval bullet : enemyBullets) {
-			bullet.move(0, ENEMY_PROJ_SPEED);
-			if (bullet.getY() > PROGRAM_HEIGHT) {
-				bulletsToRemove.add(bullet);
-			}
-		}
+				/*for (GOval bullet : enemyBullets) {
+					bullet.move(0, ENEMY_PROJ_SPEED);
+					if (bullet.getY() > PROGRAM_HEIGHT) {
+						bulletsToRemove.add(bullet);
+					}
+				}*/
+				
+				for (GImage bullet : enemyBullets1) {
+			        bullet.move(0, ENEMY_PROJ_SPEED);
+			        if (bullet.getY() > PROGRAM_HEIGHT) {
+			            bulletsToRemove.add(bullet);
+			        }
+			    }
 
-		for (GOval bullet : bulletsToRemove) {
-			remove(bullet);
-			enemyBullets.remove(bullet);
-		}
+				/*for (GOval bullet : bulletsToRemove) {
+					remove(bullet);
+					enemyBullets.remove(bullet);
+				}*/
+				
+				for (GImage bullet : bulletsToRemove) {
+			        remove(bullet);
+			        enemyBullets1.remove(bullet);
+			    }
 	}
 
 	private void spawnWave(int wave) {
@@ -280,7 +314,7 @@ public class TestingLevel2 extends GraphicsProgram implements ActionListener {
 		}
 
 		// Update collision detection for enemy bullets
-		for (GOval bullet : enemyBullets) {
+		/*for (GOval bullet : enemyBullets) {
 			if (bullet.getBounds().intersects(mainShipImage.getBounds())) {
 				System.out.println("Collision Detected!");
 				enemyBullets.remove(bullet);
@@ -288,7 +322,18 @@ public class TestingLevel2 extends GraphicsProgram implements ActionListener {
 				gameOver();
 				break;
 			}
-		}
+		}*/
+		
+		for (int i = 0; i < enemyBullets1.size(); i++) {
+	        GImage bullet = enemyBullets1.get(i);
+	        if (bullet.getBounds().intersects(mainShipImage.getBounds())) {
+	            System.out.println("Collision Detected!");
+	            remove(bullet);
+	            enemyBullets1.remove(i);
+	            gameOver();
+	            break;
+	        }
+	    }
 	}
 
 	// Firing from main ship using left mouse button
@@ -460,78 +505,101 @@ public class TestingLevel2 extends GraphicsProgram implements ActionListener {
 	}
 
 	private void moveUserBullets() {
-		ArrayList<GOval> bulletsToRemove = new ArrayList<>();
-		/* ArrayList<GPolygon> enemiesToRemove = new ArrayList<>(); */
+		//ArrayList<GOval> bulletsToRemove = new ArrayList<>();
+				//ArrayList<GImage> enemiesToRemove = new ArrayList<>();
+				//ArrayList<GPolygon> enemiesToRemove = new ArrayList<>();
+				 ArrayList<GImage> bulletsToRemove = new ArrayList<>();
 
-		for (GOval bullet : userBullets) {
-			bullet.move(0, -USER_PROJ_SPEED);
+				/*for (GOval bullet : userBullets) {
+					bullet.move(0, -USER_PROJ_SPEED);
 
-			if (bullet.getY() < 0) {
-				bulletsToRemove.add(bullet);
-				continue;
-			}
+					if (bullet.getY() < 0) {
+						bulletsToRemove.add(bullet);
+						continue;
+					}*/
 
-			/*
-			 * for (GPolygon enemy : enemyVisuals) { if
-			 * (bullet.getBounds().intersects(enemy.getBounds())) {
-			 * bulletsToRemove.add(bullet); enemiesToRemove.add(enemy); score += 100; //
-			 * +100 points per enemy //updateScore(100); updateScoreLabel(); break; } } }
-			 */
+					/*for (GPolygon enemy : enemyVisuals) {
+						if (bullet.getBounds().intersects(enemy.getBounds())) {
+							bulletsToRemove.add(bullet);
+							enemiesToRemove.add(enemy);
+							score += 100; // +100 points per enemy
+							//updateScore(100);
+							updateScoreLabel();
+							break;
+						}
+					}
+				}*/
+				 
+				 for (GImage bullet : userBullets1) {
+				        bullet.move(0, -USER_PROJ_SPEED);
 
-			for (GImage enemy : enemyImages) {
-				if (bullet.getBounds().intersects(enemy.getBounds())) {
-					bulletsToRemove.add(bullet);
-					// enemiesToRemove.add(enemy);
-					remove(enemy); // Remove from display
-					enemyImages.remove(enemy); // Remove from ArrayList
-					score += 100; // +100 points per enemy
-					// updateScore(100);
-					updateScoreLabel();
-					break;
-				}
-			}
-		}
+				        if (bullet.getY() < 0) {
+				            bulletsToRemove.add(bullet);
+				            continue;
+				        }
+					
+					for (GImage enemy : enemyImages) {
+			            if (bullet.getBounds().intersects(enemy.getBounds())) {
+			                bulletsToRemove.add(bullet);
+			                //enemiesToRemove.add(enemy);
+			                remove(enemy);               // Remove from display
+			                enemyImages.remove(enemy);  // Remove from ArrayList
+			                score += 100; // +100 points per enemy
+			                //updateScore(100);
+			                updateScoreLabel();
+			                break;
+			            }
+			        }
+			    }
 
-		for (GOval bullet : bulletsToRemove) {
-			remove(bullet);
-			userBullets.remove(bullet);
-		}
+				/*for (GOval bullet : bulletsToRemove) {
+					remove(bullet);
+					userBullets.remove(bullet);
+				}*/
+				 
+				 for (GImage bullet : bulletsToRemove) {
+				        remove(bullet);
+				        userBullets1.remove(bullet);
+				    }
 
-		/*
-		 * for (GPolygon enemy : enemiesToRemove) { remove(enemy);
-		 * enemyVisuals.remove(enemy); }
-		 */
+				/*for (GPolygon enemy : enemiesToRemove) {
+					remove(enemy);
+					enemyVisuals.remove(enemy);
+				}*/
+				
+				/*for (GImage enemy : enemiesToRemove) {
+			        remove(enemy);
+			        enemyImages.remove(enemy);
+			    }*/
 
-		/*
-		 * for (GImage enemy : enemiesToRemove) { remove(enemy);
-		 * enemyImages.remove(enemy); }
-		 */
+				/*if (enemyVisuals.isEmpty()) {
+					long timeToClear = (System.currentTimeMillis() - bonusStartTime) / 1000;
+					if (timeToClear <= BONUS_TIME_LIMIT) {
+						bonusPoints += 1500; // Add to bonus points for finishing the level quickly
+						updateBonusPointsLabel();
+					}
+					movement.stop();
+					showEndLevelSummary();// Show the end level summary
+				}*/
+				 if (enemyImages.isEmpty()) {
+					    long timeToClear = (System.currentTimeMillis() - bonusStartTime) / 1000;
+					    if (timeToClear <= BONUS_TIME_LIMIT) {
+					        bonusPoints += 1500;
+					        updateBonusPointsLabel();
+					    }
 
-		/*
-		 * if (enemyVisuals.isEmpty()) { long timeToClear = (System.currentTimeMillis()
-		 * - bonusStartTime) / 1000; if (timeToClear <= BONUS_TIME_LIMIT) { bonusPoints
-		 * += 1500; // Add to bonus points for finishing the level quickly
-		 * updateBonusPointsLabel(); } movement.stop(); showEndLevelSummary();// Show
-		 * the end level summary }
-		 */
-		if (enemyImages.isEmpty()) {
-			long timeToClear = (System.currentTimeMillis() - bonusStartTime) / 1000;
-			if (timeToClear <= BONUS_TIME_LIMIT) {
-				bonusPoints += 1500;
-				updateBonusPointsLabel();
-			}
+					    if (waveNumber < 2) {  // Assuming 2 waves total
+					        waveNumber++;
+					        spawnWave(waveNumber);
+					        // Reset bonus timer for the new wave if you want
+					        bonusStartTime = System.currentTimeMillis();
+					    } else {
+					        movement.stop();
+					        showEndLevelSummary();
+					        levelEnded = true;
+					    }
+					}
 
-			if (waveNumber < 2) { // Assuming 2 waves total
-				waveNumber++;
-				spawnWave(waveNumber);
-				// Reset bonus timer for the new wave if you want
-				bonusStartTime = System.currentTimeMillis();
-			} else {
-				movement.stop();
-				showEndLevelSummary();
-				levelEnded = true;
-			}
-		}
 	}
 
 	private void showEndLevelSummary() {
@@ -618,16 +686,17 @@ public class TestingLevel2 extends GraphicsProgram implements ActionListener {
 	        movement.stop();
 	    }
 
-	    // Remove all bullets from canvas and clear lists
-	    for (GOval bullet : userBullets) {
+	    // Remove all user bullets from canvas and clear list
+	    for (GImage bullet : userBullets1) {
 	        remove(bullet);
 	    }
-	    userBullets.clear();
+	    userBullets1.clear();
 
-	    for (GOval bullet : enemyBullets) {
+	    // Remove all enemy bullets from canvas and clear list
+	    for (GImage bullet : enemyBullets1) {
 	        remove(bullet);
 	    }
-	    enemyBullets.clear();
+	    enemyBullets1.clear();
 
 	    // Remove all enemies from canvas and clear list
 	    for (GImage enemy : enemyImages) {
