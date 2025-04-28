@@ -54,6 +54,14 @@ public class TestingLevel1 extends GraphicsProgram implements ActionListener {
 	private boolean levelEnded = false;
 	
 	private GameData gameData;
+	
+	private MainApplication mainScreen;
+	private EndLevelSummary summaryScreen; 
+	
+	public void setMainScreen(MainApplication mainScreen) {
+	    this.mainScreen = mainScreen;
+	}
+
 
 	public void init() {
 		setSize(PROGRAM_WIDTH, PROGRAM_HEIGHT);
@@ -106,7 +114,7 @@ public class TestingLevel1 extends GraphicsProgram implements ActionListener {
 		
 		
 		
-		int[] startRows = {5, 5, 5, 1, 1, 1, 1};
+		int[] startRows = {7, 7, 7, 1, 1, 1, 1};
 		int[] startCols = {12, 17, 22, 8, 13, 18, 22};
 
 		for (int i = 0; i < startRows.length; i++) {
@@ -224,6 +232,18 @@ public class TestingLevel1 extends GraphicsProgram implements ActionListener {
 	// Firing from main ship using left mouse button
 	@Override
 	public void mousePressed(MouseEvent e) {
+		
+		if (summaryScreen != null) {
+	        // Translate mouse coords to summaryScreen coords
+	        double x = e.getX() - summaryScreen.getX();
+	        double y = e.getY() - summaryScreen.getY();
+
+	        if (summaryScreen.isNextButtonClicked(x, y)) {
+	            summaryScreen.runNextLevelAction();
+	            return;  // Prevent further processing of this click
+	        }
+	    }
+		
 		if (SwingUtilities.isLeftMouseButton(e)) {
 			mousePressed = true;
 		}
@@ -532,22 +552,37 @@ public class TestingLevel1 extends GraphicsProgram implements ActionListener {
 	       //gameData.addTimeSurvived(elapsedTime);
 	    }
 	    
-	    EndLevelSummary summary = new EndLevelSummary(score, bonusPoints, elapsedTime, this::nextLevel);
+
 	    removeAll();
 	    showCursor();
-	    
-	    add(summary, (PROGRAM_WIDTH - summary.getWidth()) / 2, (PROGRAM_HEIGHT - summary.getHeight()) / 2);
 
+	    // Create summary screen with callback to launch Level 2 and close this window
+	    summaryScreen = new EndLevelSummary(score, bonusPoints, elapsedTime, this::nextLevel);
 
-	    
+	    add(summaryScreen, (PROGRAM_WIDTH - summaryScreen.getWidth()) / 2, (PROGRAM_HEIGHT - summaryScreen.getHeight()) / 2);
+	}
+	
+	private void closeWindow() {
+	    // Get the top-level window (the JFrame that contains this program)
+	    java.awt.Window window = javax.swing.SwingUtilities.getWindowAncestor(getGCanvas());
+	    if (window != null) {
+	        window.dispose();
+	    }
 	}
 	
 	private void nextLevel() {
 	    // Logic to transition to the next level
-	    System.out.println("Moving to next level...");
+	   /* System.out.println("Moving to next level...");
 	    TestingLevel2 next = new TestingLevel2();
 	    next.setGameData(gameData);
-	    next.start(); // or next.startApplication() if needed
+	    next.start();*/ // or next.startApplication() if needed
+		
+		System.out.println("Moving to next level...");
+	    if (mainScreen != null) {
+	    	mainScreen.setGameData(gameData);
+	        mainScreen.launchLevel2();
+	    }
+	    closeWindow();
 	}
 	
 

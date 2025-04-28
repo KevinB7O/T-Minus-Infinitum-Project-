@@ -14,12 +14,14 @@ public class EndLevelSummary extends GCompound {
     private GLabel elapsedTimeLabel;
     private GRect nextButton;
     private GLabel nextLabel;
+    private Runnable nextLevelAction;
     
 
     public EndLevelSummary(int score, int bonusPoints, int elapsedTime, Runnable nextLevelAction) {
         this.score = score;
         this.bonusPoints = bonusPoints;
         this.elapsedTime = elapsedTime;
+        this.nextLevelAction = nextLevelAction;
 
        
         // Display level summary text
@@ -58,10 +60,24 @@ public class EndLevelSummary extends GCompound {
         add(nextLabel, 65, 185);
         
         // Add mouse listener for "Next" button
-        nextButton.addMouseListener(new java.awt.event.MouseAdapter() {
+        /*nextButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent e) {
                 nextLevelAction.run(); // Call the provided callback (next level)
             }
-        });
+        });*/
+        
+     
+       
+    }
+    
+    public boolean isNextButtonClicked(double x, double y) {
+        return nextButton.contains(x, y);
+    }
+
+    
+    public void runNextLevelAction() {
+        if (nextLevelAction != null) {
+            nextLevelAction.run();
+        }
     }
 }

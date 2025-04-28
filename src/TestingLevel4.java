@@ -53,6 +53,14 @@ public class TestingLevel4 extends GraphicsProgram implements ActionListener {
 	private GImage mainShipImage;
 	private boolean levelEnded = false;
 	private GameData gameData;
+	
+	private MainApplication mainScreen;
+	private EndLevelSummary summaryScreen; 
+	
+	
+	public void setMainScreen(MainApplication mainScreen) {
+	    this.mainScreen = mainScreen;
+	}
 
 	public void init() {
 		setSize(PROGRAM_WIDTH, PROGRAM_HEIGHT);
@@ -579,20 +587,37 @@ public class TestingLevel4 extends GraphicsProgram implements ActionListener {
 	       //gameData.addTimeSurvived(elapsedTime);
 	    }
 	    
-	    EndLevelSummary summary = new EndLevelSummary(score, bonusPoints, elapsedTime, this::nextLevel);
 	    removeAll();
 	    showCursor();
 	    
-	    add(summary, (PROGRAM_WIDTH - summary.getWidth()) / 2, (PROGRAM_HEIGHT - summary.getHeight()) / 2);
+	    // Create summary screen with callback to launch Level 2 and close this window
+	    summaryScreen = new EndLevelSummary(score, bonusPoints, elapsedTime, this::nextLevel);
 
+	    add(summaryScreen, (PROGRAM_WIDTH - summaryScreen.getWidth()) / 2, (PROGRAM_HEIGHT - summaryScreen.getHeight()) / 2);
+
+	}
+ 	
+ 	private void closeWindow() {
+	    // Get the top-level window (the JFrame that contains this program)
+	    java.awt.Window window = javax.swing.SwingUtilities.getWindowAncestor(getGCanvas());
+	    if (window != null) {
+	        window.dispose();
+	    }
 	}
  	
  	private void nextLevel() {
 	    // Logic to transition to the next level
-	    System.out.println("Moving to next level...");
+	    /*System.out.println("Moving to next level...");
 	    TestingLevel5 next = new TestingLevel5();
 	    next.setGameData(gameData);
-	    next.start(); // or next.startApplication() if needed
+	    next.start();*/ // or next.startApplication() if needed
+ 		
+ 		System.out.println("Moving to next level...");
+	    if (mainScreen != null) {
+	    	mainScreen.setGameData(gameData);
+	        mainScreen.launchLevel5();
+	    }
+	    closeWindow();
 	}
  	
  	private void gameOver() {
