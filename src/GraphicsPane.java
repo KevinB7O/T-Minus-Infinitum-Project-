@@ -38,7 +38,7 @@ public class GraphicsPane {
     }
     
     public static GImage getEnemySpaceship4(double x, double y) {
-        GImage EnemySpaceship4Img = new GImage("Media/Enemy spaceship4(updated).png");
+        GImage EnemySpaceship4Img = new GImage("Media/Enemy spaceshp4(updated).png");
         EnemySpaceship4Img.setLocation(x, y);
         return EnemySpaceship4Img;
     }
@@ -55,6 +55,12 @@ public class GraphicsPane {
         return new GImage("Media/Background (T-minus Infinitum).png", 0, 0);
     }
 	
+    
+    public static GImage getUserBulletImage(double x, double y) {
+        GImage mainbulletImage = new GImage("Media/(Blue) bullet asset cropped.png", x, y); // Use your bullet image path
+        mainbulletImage.scale(0.5, 0.5); // Adjust scale as needed
+        return mainbulletImage;
+    }
 	
 	
 	
