@@ -50,6 +50,11 @@ public class MainApplication extends GraphicsProgram {
     public void switchToWelcomeScreen() {
         switchToScreen(welcomePane);
     }
+    
+    public void switchToEndGameSummary() {
+        EndGameSummary endGameSummary = new EndGameSummary(this);
+        switchToScreen(endGameSummary);
+    }
 
     // This launches TestingLevel1 as a new window
     public void launchLevel1() {
