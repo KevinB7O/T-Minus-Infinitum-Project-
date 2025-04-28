@@ -539,15 +539,23 @@ public class TestingLevel2 extends GraphicsProgram implements ActionListener {
 			showEndLevelSummary();// Show the end level summary
 		}*/
 		if (enemyImages.isEmpty()) {
-	        if (waveNumber < 2) {  // Assuming 2 waves total
-	            waveNumber++;
-	            spawnWave(waveNumber);
-	        } else {
-	            movement.stop();
-	            showEndLevelSummary();
-	            levelEnded = true;
-	        }
-	    }
+		    long timeToClear = (System.currentTimeMillis() - bonusStartTime) / 1000;
+		    if (timeToClear <= BONUS_TIME_LIMIT) {
+		        bonusPoints += 1500;
+		        updateBonusPointsLabel();
+		    }
+
+		    if (waveNumber < 2) {  // Assuming 2 waves total
+		        waveNumber++;
+		        spawnWave(waveNumber);
+		        // Reset bonus timer for the new wave if you want
+		        bonusStartTime = System.currentTimeMillis();
+		    } else {
+		        movement.stop();
+		        showEndLevelSummary();
+		        levelEnded = true;
+		    }
+		}
 	}
  	
  	private void showEndLevelSummary() {
