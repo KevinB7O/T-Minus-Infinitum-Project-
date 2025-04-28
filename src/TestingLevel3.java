@@ -18,10 +18,10 @@ public class TestingLevel3 extends GraphicsProgram implements ActionListener {
 	public static final int SIZE = 25;
 	public static final int MS = 25;
 	public static final int ENEMY_PROJ_SPEED = 9;
-	public static final int ENEMY_PROJ_SIZE = 10;
+	public static final int ENEMY_PROJ_SIZE = 15;
 	private final int USER_PROJ_SPEED = 7;
 	private final int USER_PROJ_SIZE = 8;
-	private static final int ENEMY_MOVE_SPEED = 11;
+	private static final int ENEMY_MOVE_SPEED = 15;
 
 	private int enemyShootCooldown = 50;
 	private int enemyTicksSinceLastShot = 0;
@@ -38,7 +38,7 @@ public class TestingLevel3 extends GraphicsProgram implements ActionListener {
 	private GLabel bonusTimerLabel;
 	private int bonusPoints = 0;
 	private long bonusStartTime;
-	private final int BONUS_TIME_LIMIT = 90; // seconds
+	private final int BONUS_TIME_LIMIT = 60; // seconds
 
 	private boolean mousePressed = false;
 	private boolean gameOverFlag = false;
