@@ -1,50 +1,27 @@
 
 public class GameData {
-	private int totalScore = 0;
+    private int totalScore = 0;
     private int totalBonusPoints = 0;
-	
-	private static GameData instance;
-    
-    /*public GameData (int totalScore, int totalBonusPoints) {
-    	this.totalScore = totalScore;
-    	this.totalBonusPoints = totalBonusPoints;
-    }*/
-	
-	private GameData() {
-		
-	}  
-	
-	public static GameData getInstance() {
-		if (instance == null) {
-			instance = new GameData();
-		}
-		return instance;
-	}
-    
-    
-    //Getter and setter
-    public int getTotalScore() {
-        return totalScore;
+    private int totalElapsedTime = 0; // Stores time in seconds
+
+    private static GameData instance;
+
+    private GameData() { }
+
+    public static GameData getInstance() {
+        if (instance == null) {
+            instance = new GameData();
+        }
+        return instance;
     }
-    
-    public void setTotalScore (int totalScore) {
-    	this.totalScore = totalScore;
+
+    // Getter and setter for totalElapsedTime
+    public long getTotalElapsedTime() {
+        return totalElapsedTime;
     }
-    
-    //Getter and setter
-    public int getTotalBonusPoints() {
-        return totalBonusPoints;
+
+    public void addElapsedTime(long levelTime) {
+        totalElapsedTime += levelTime;
     }
-    public void setTotalBonusPoints (int totalBonusPoints) {
-    	this.totalBonusPoints = totalBonusPoints;
-    }
-    
-    public void addScore(int score) {
-        totalScore += score;
-    }
-    
-    public void addBonus(int bonus) {
-        totalBonusPoints += bonus;
-    }
-    
 }
+
