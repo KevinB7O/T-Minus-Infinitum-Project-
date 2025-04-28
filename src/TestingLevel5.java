@@ -17,11 +17,11 @@ public class TestingLevel5 extends GraphicsProgram implements ActionListener {
 	public static final int PROGRAM_HEIGHT = 600;
 	public static final int SIZE = 25;
 	public static final int MS = 25;
-	public static final int ENEMY_PROJ_SPEED = 13;
+	public static final int ENEMY_PROJ_SPEED = 23;
 	public static final int ENEMY_PROJ_SIZE = 10;
 	private final int USER_PROJ_SPEED = 7;
 	private final int USER_PROJ_SIZE = 8;
-	private static final int ENEMY_MOVE_SPEED = 15;
+	private static final int ENEMY_MOVE_SPEED = 23;
 
 	private int enemyShootCooldown = 50;
 	private int enemyTicksSinceLastShot = 0;
@@ -35,11 +35,7 @@ public class TestingLevel5 extends GraphicsProgram implements ActionListener {
 	private GLabel scoreLabel;
 	private int msCounter = 0;
 
-	private GLabel bonusTimerLabel;
-	private int bonusPoints = 0;
-	private long bonusStartTime;
-	private final int BONUS_TIME_LIMIT = 120; // seconds
-
+	
 	private boolean mousePressed = false;
 	private boolean gameOverFlag = false;
 
@@ -91,12 +87,7 @@ public class TestingLevel5 extends GraphicsProgram implements ActionListener {
 		timerLabel.setFont("SansSerif-bold-16");
 		add(timerLabel);
 
-		// Added a timer tracking bonus points
-		bonusStartTime = System.currentTimeMillis();
-		bonusTimerLabel = new GLabel("Bonus Time: 30", 0, 60);
-		bonusTimerLabel.setFont("SansSerif-bold-16");
-		bonusTimerLabel.setColor(Color.BLACK);
-		add(bonusTimerLabel);
+	
 
 		// Added a point system
 		scoreLabel = new GLabel("Score: " + carriedOverScore, 810, 20);
@@ -250,15 +241,7 @@ public class TestingLevel5 extends GraphicsProgram implements ActionListener {
 			msCounter = 0;
 		}
 
-		// Bonus countdown timer update
-		long elapsedBonusTime = (System.currentTimeMillis() - bonusStartTime) / 1000;
-		int remainingBonusTime = BONUS_TIME_LIMIT - (int) elapsedBonusTime;
-
-		if (remainingBonusTime >= 0) {
-			bonusTimerLabel.setLabel("Bonus Time: " + remainingBonusTime);
-		} else {
-			bonusTimerLabel.setLabel("Bonus Time: 0");
-		}
+		
 
 		projectileCollisionDetection();
 		enemyCollisionDetection();
@@ -343,11 +326,7 @@ public class TestingLevel5 extends GraphicsProgram implements ActionListener {
  				spawnWave(2);
  			} else {
  				// Level completed
- 				long timeToClear = (System.currentTimeMillis() - bonusStartTime) / 1000;
- 				if (timeToClear <= BONUS_TIME_LIMIT) {
- 					bonusPoints += 1500;
- 					updateBonusPointsLabel();
- 				}
+ 				
  				movement.stop();
  				showEndLevelSummary();
  			}
@@ -361,16 +340,16 @@ public class TestingLevel5 extends GraphicsProgram implements ActionListener {
 		// Update gameData with this level's results
 	    if (gameData != null) {
 	        gameData.addScore(score);
-	        gameData.addBonus(bonusPoints);
-	       //gameData.addTimeSurvived(elapsedTime);
+	        
+	       
 	        
 	    }
 	    
-	    EndLevelSummary summary = new EndLevelSummary(score, bonusPoints, elapsedTime, this::nextLevel);
+	   // EndLevelSummary summary = new EndLevelSummary(score, elapsedTime, this::nextLevel);
 	    removeAll();
 	    showCursor();
 	    
-	    add(summary, (PROGRAM_WIDTH - summary.getWidth()) / 2, (PROGRAM_HEIGHT - summary.getHeight()) / 2);
+	   // add(summary, (PROGRAM_WIDTH - summary.getWidth()) / 2, (PROGRAM_HEIGHT - summary.getHeight()) / 2);
 
 	}
  	
@@ -464,7 +443,6 @@ public class TestingLevel5 extends GraphicsProgram implements ActionListener {
 		msCounter = 0;
 		enemyTicksSinceLastShot = 0;
 		mainShipTicksSinceLastShot = 0;
-		bonusStartTime = System.currentTimeMillis();
 		mousePressed = false;
 		gameOverFlag = false;
 		waveNumber = 1;
@@ -482,10 +460,7 @@ public class TestingLevel5 extends GraphicsProgram implements ActionListener {
 		scoreLabel.setLabel("Score: " + score);
 	}
 
-	private void updateBonusPointsLabel() {
-		bonusTimerLabel.setLabel("Bonus Points: " + bonusPoints); // Assuming you use the existing label for bonus
-																	// points
-	}
+	
 
 	private void hideCursor() {
 		Toolkit toolkit = Toolkit.getDefaultToolkit();
