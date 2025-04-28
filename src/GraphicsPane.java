@@ -20,31 +20,31 @@ public class GraphicsPane {
     }
     
     public static GImage getEnemySpaceship1(double x, double y) {
-        GImage EnemySpaceship1Img = new GImage("Media/User spaceship (Enemy spaceships (inherited and initial spaceship; cropped).png)");
+        GImage EnemySpaceship1Img = new GImage("Media/Enemy spaceship1(updated).png");
         EnemySpaceship1Img.setLocation(x, y);
         return EnemySpaceship1Img;
     }
     
     public static GImage getEnemySpaceship2(double x, double y) {
-        GImage EnemySpaceship2Img = new GImage("Media/User spaceship (Enemy spaceships (2nd enemy type; cropped).png)");
+        GImage EnemySpaceship2Img = new GImage("Media/Enemy spaceship2(updated).png)");
         EnemySpaceship2Img.setLocation(x, y);
         return EnemySpaceship2Img;
     }
     
     public static GImage getEnemySpaceship3(double x, double y) {
-        GImage EnemySpaceship3Img = new GImage("Media/User spaceship (Enemy spaceship (3rd enemy Type; cropped).png)");
+        GImage EnemySpaceship3Img = new GImage("Media/Enemy spaceship3(updated).png)");
         EnemySpaceship3Img.setLocation(x, y);
         return EnemySpaceship3Img;
     }
     
     public static GImage getEnemySpaceship4(double x, double y) {
-        GImage EnemySpaceship4Img = new GImage("Media/User spaceship (Enemy spaceship (4th enemy type; cropped).png)");
+        GImage EnemySpaceship4Img = new GImage("Media/Enemy spaceship4(updated).png)");
         EnemySpaceship4Img.setLocation(x, y);
         return EnemySpaceship4Img;
     }
     
     public static GImage getEnemySpaceship5(double x, double y) {
-        GImage EnemySpaceship5Img = new GImage("Media/User spaceship (Enemy spaceship (5th enemy type; cropped).png)");
+        GImage EnemySpaceship5Img = new GImage("Media/Enemy spaceship5(updated).png)");
         EnemySpaceship5Img.setLocation(x, y);
         return EnemySpaceship5Img;
     }
